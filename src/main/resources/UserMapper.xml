@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcalc.dao.UserMapper">
+
+    <update id="updateUser" parameterType="User">
+        update user
+        set
+          password=#{password},
+          username=#{username},
+          department=#{department},
+          profile=#{profile}
+        where
+          userId=#{userid}
+    </update>
+
+    <update id="updateUserWithoutProfile" parameterType="User">
+        UPDATE user
+        SET
+          password=#{password},
+          username=#{username},
+          department=#{department}
+        WHERE
+          userId=#{userid}
+    </update>
+
+    <update id="updateUserProfileById" parameterType="string">
+        UPDATE user
+        SET
+          profile=#{profile}
+        where
+          userId=#{userid}
+    </update>
+
+    <update id="updateUserProfileByUser" parameterType="User">
+        UPDATE user
+        SET
+          profile=#{profile}
+        where
+          userId=#{userid}
+    </update>
+
+    <select id="findAllUser"  resultType="User">
+        SELECT *
+        FROM user
+    </select>
+
+    <select id="findByUser" parameterType="User" resultType="User">
+        select * from user where userid=#{userid} and password=#{password}
+    </select>
+
+    <delete id="deleteUserById" parameterType="String">
+        delete  from user where userId=#{userid}
+    </delete>
+
+    <insert id="insertUser" parameterType="User">
+        insert into user(userid,password,username,kengen,department)
+        values(
+        #{userid},
+        #{password},
+        #{username},
+        #{kengen},
+        #{department}
+        )
+    </insert>
+</mapper>
