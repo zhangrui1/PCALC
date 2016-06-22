@@ -26,10 +26,7 @@
                     <div class="box-header">
 
                         <div class="row">
-                            <div class="col-md-1"><div class="box-title"><button class="btn btn-default btn-user" onclick="addMaster()"><i class="fa fa-plus"></i> </button></div></div>
-                            <%--<div class="col-md-2">--%>
-                                <%--<div class="box-title"><input type="text" placeholder="Filter" onclick="searchDataTd(this)" class="pull-right form-control" /></div>--%>
-                            <%--</div>--%>
+                            <div class="col-md-1"><div class="box-title"><button class="btn btn-default btn-user" onclick="addMaster()">新規弁</button></div></div>
                             <div class="col-md-3">
                                 <div class="box-title input-group">
                                     <input type="text" name="table_search" id="table_search" class="form-control input-sm" style="width: 150px;" placeholder="Filter">
@@ -45,7 +42,7 @@
                         <table class="table table-hover" id="user-table">
                             <thead>
                             <tr>
-                                <th>弁番号</th>
+                                <th>弁番号<span id="valve_num" class="valve_num">(${valveListNum})</span></th>
                                 <th>備考</th>
                                 <th>更新日付</th>
                                 <th>詳細</th>
@@ -58,11 +55,9 @@
                                     <td class="data-td">${valve.biko}</td>
                                     <td class="data-td">${valve.updDate}</td>
                                     <td>
-                                        <div class="operation-button">
-                                            <%--<a class="btn btn-primary btn-sm operation-button-btn" href="/PCALC/valve/${valve.valveId}"><i class="fa fa-pencil"></i></a>--%>
-                                            <a class="btn btn-primary" href="#"><i class="fa fa-pencil"></i></a>
-                                        </div>
-                                            <button onclick="deleteValve(this)" class="btn btn-xs btn-danger master-delete-btn"><i class="glyphicon glyphicon-trash"></i></button>
+                                        <%--<a class="btn btn-primary btn-sm operation-button-btn" href="/PCALC/valve/${valve.valveId}"><i class="fa fa-pencil"></i></a>--%>
+                                        <a class="btn btn-primary operation-button-btn" href="#">詳細</a>
+                                        <button onclick="deleteValve(this)" class="btn btn-danger operation-button-btn">削除</button>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -98,9 +93,9 @@
                                         <div class="col-md-4">
                                             <input type="text" name="valdacNo" id="valdacNo" class="form-control valdacForm-input" value="" />
                                         </div>
-                                        <div class="col-md-4">
-                                            ※：重複登録できません
-                                        </div>
+                                        <%--<div class="col-md-4">--%>
+                                            <%--※：重複登録できません--%>
+                                        <%--</div>--%>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-2">

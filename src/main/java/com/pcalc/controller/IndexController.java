@@ -43,6 +43,12 @@ public class IndexController {
             return "login";
         } else {
             List<Valve> valveList=valveService.getAllValveByUserId(user.getUserid());
+            //弁件数を取得
+            Integer valveListNum=0;
+            if(valveList!=null){
+                valveListNum=valveList.size();
+            }
+            session.setAttribute("valveListNum",valveListNum);
             session.setAttribute("valveList",valveList);
             modelMap.addAttribute("valveList", valveList);
             return "list";
