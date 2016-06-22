@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcalc.dao.ValveMapper">
+
+    <select id="findAllValveByUserId" parameterType="Valve" resultType="Valve">
+        select * from valve where userterm=#{userterm} and delFlg=#{delFlg}
+    </select>
+
+    <select id="findAllValveByValveId" parameterType="int" resultType="Valve">
+        select * from valve where valveId=#{valveId}
+    </select>
+
+    <select id="getLastInsertId" resultType="int">
+        select valveId from valve ORDER BY valveId DESC limit 1
+    </select>
+
+    <insert id="insertValve" parameterType="Valve">
+        insert into
+        valve( valdacNo, biko, userterm, delFlg, trkDate, updDate)
+        values(
+        #{valdacNo},
+        #{biko},
+        #{userterm},
+        #{delFlg},
+        #{trkDate},
+        #{updDate}
+        )
+    </insert>
+
+    <update id="deleteValve" parameterType="Valve">
+        UPDATE valve
+        SET
+        delFlg=#{delFlg},
+        updDate=#{updDate}
+        where
+        valveId=#{valveId}
+    </update>
+</mapper>

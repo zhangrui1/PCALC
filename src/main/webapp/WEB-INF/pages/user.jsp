@@ -8,8 +8,6 @@
 <!-- header logo: style can be found in header.less -->
 <c:import url="htmlframe/headerFrame.jsp"/>
 <div class="wrapper row-offcanvas row-offcanvas-left">
-    <!-- Left side column. contains the logo and sidebar -->
-    <c:import url="htmlframe/leftFrame.jsp" />
 
     <!-- Right side column. Contains the navbar and content of the page -->
     <aside class="right-side">

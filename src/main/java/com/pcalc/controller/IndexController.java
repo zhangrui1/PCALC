@@ -2,7 +2,9 @@ package com.pcalc.controller;
 
 
 import com.pcalc.entity.User;
+import com.pcalc.entity.Valve;
 import com.pcalc.service.UserService;
+import com.pcalc.service.ValveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +28,7 @@ import java.util.Map;
 public class IndexController {
 
     @Autowired
-    private UserService userService;
+    private ValveService valveService;
     /**
      * ログイン後のTopページ
      *
@@ -40,11 +42,10 @@ public class IndexController {
         if(user == null){
             return "login";
         } else {
-            List<User> userList=userService.getAllUser();
-            session.setAttribute("userList",userList);
-            modelMap.addAttribute("userList", userList);
-
-            return "user";
+            List<Valve> valveList=valveService.getAllValveByUserId(user.getUserid());
+            session.setAttribute("valveList",valveList);
+            modelMap.addAttribute("valveList", valveList);
+            return "list";
         }
 }
 
