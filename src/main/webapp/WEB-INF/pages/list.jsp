@@ -39,7 +39,7 @@
 
                     </div>
                     <div class="panel-body">
-                        <table class="table table-hover" id="user-table">
+                        <table class="table table-hover" id="list-table">
                             <thead>
                             <tr>
                                 <th>弁番号<span id="valve_num" class="valve_num">(${valveListNum})</span></th>
@@ -55,9 +55,8 @@
                                     <td class="data-td">${valve.biko}</td>
                                     <td class="data-td">${valve.updDate}</td>
                                     <td>
-                                        <%--<a class="btn btn-primary btn-sm operation-button-btn" href="/PCALC/valve/${valve.valveId}"><i class="fa fa-pencil"></i></a>--%>
-                                        <a class="btn btn-primary operation-button-btn" href="#">詳細</a>
-                                        <button onclick="deleteValve(this)" class="btn btn-danger operation-button-btn">削除</button>
+                                        <a class="btn btn-primary operation-button-btn" href="/PCALC/valve/${valve.valveId}">詳細</a>
+                                        <%--<button onclick="deleteValve(this)" class="btn btn-danger operation-button-btn">削除</button>--%>
                                     </td>
                                 </tr>
                             </c:forEach>

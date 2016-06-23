@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcalc.dao.PressMapper">
+
+    <select id="findAllPressByValveId" parameterType="Press" resultType="Press">
+        select * from press where valveId=#{valveId} and delFlg=#{delFlg}
+    </select>
+
+    <select id="findAllValveByPressId" parameterType="int" resultType="Press">
+        select * from press where pressId=#{pressId}
+    </select>
+
+    <select id="getLastInsertId" resultType="int">
+        select valveId from press ORDER BY valveId DESC limit 1
+    </select>
+
+    <select id="getLastpressNumByValveId" resultType="int">
+        select pressNum from press where valveId=#{valveId} ORDER BY pressNum DESC limit 1
+    </select>
+
+    <insert id="insertPress" parameterType="Press">
+        insert into
+        press( valveId, pressNum, base,pressG, pressResult,userterm,delFlg, trkDate, updDate)
+        values(
+        #{valveId},
+        #{pressNum},
+        #{base},
+        #{pressG},
+        #{pressResult},
+        #{userterm},
+        #{delFlg},
+        #{trkDate},
+        #{updDate}
+        )
+    </insert>
+
+    <update id="updatePress" parameterType="Press">
+        UPDATE press
+        SET
+        base=#{base},
+        pressG=#{pressG},
+        pressResult=#{pressResult},
+        userterm=#{userterm},
+        updDate=#{updDate}
+        where
+        pressId=#{pressId}
+    </update>
+
+    <update id="deleteByPressId" parameterType="Press">
+        UPDATE press
+        SET
+        delFlg=#{delFlg},
+        updDate=#{updDate}
+        where
+        pressId=#{pressId}
+    </update>
+
+    <update id="deleteByValveId" parameterType="Press">
+        UPDATE press
+        SET
+        delFlg=#{delFlg},
+        updDate=#{updDate}
+        where
+        valveId=#{valveId}
+    </update>
+</mapper>

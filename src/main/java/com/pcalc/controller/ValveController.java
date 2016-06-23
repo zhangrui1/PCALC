@@ -1,14 +1,18 @@
 package com.pcalc.controller;
 
+import com.pcalc.dao.ValveMapper;
 import com.pcalc.dto.ValveForm;
+import com.pcalc.entity.Press;
 import com.pcalc.entity.User;
 import com.pcalc.entity.Valve;
+import com.pcalc.service.PressService;
 import com.pcalc.service.ValveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +27,11 @@ public class ValveController {
 
     @Autowired
     private ValveService valveService;
+    @Autowired
+    private PressService pressService;
+    @Resource
+    ValveMapper valveMapper;
+
     /**
      * 弁　新規登録
      *
@@ -49,12 +58,39 @@ public class ValveController {
 
     }
 
+
+    /**
+     * valveの詳細ページへ遷移すう
+     *
+     *
+     * */
+    @RequestMapping(value = "/{valveId}", method = RequestMethod.GET)
+    public String getPressByValveId(@PathVariable("valveId")String valveId, ModelMap modelMap,HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "login";
+        } else {
+            List<Press> pressList=pressService.getPressByValveId(valveId);
+            //Press件数を取得
+            Integer pressListNum=0;
+            if(pressList!=null){
+                pressListNum=pressList.size();
+            }
+            Valve valve=valveMapper.findAllValveByValveId(Integer.parseInt(valveId));
+            session.setAttribute("pressListNum",pressListNum);
+            session.setAttribute("pressList",pressList);
+            session.setAttribute("valve",valve);
+            modelMap.addAttribute("pressList", pressList);
+            return "press";
+        }
+    }
+
     /**
      * 弁番号　削除
      *
      * @return String　工事リスト
      * */
-    @RequestMapping(value = "/deleteValve", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{valveId}/deleteValve", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     @ResponseBody
     public  String deleteValve(@RequestParam("valveId")String valveId,ModelMap modelMap,HttpSession session){
 

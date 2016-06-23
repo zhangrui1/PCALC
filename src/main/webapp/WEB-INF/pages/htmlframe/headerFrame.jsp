@@ -18,17 +18,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/PCALC/">PCALC</a>
+                <%--<a class="navbar-brand" href="/PCALC/">PCALC</a>--%>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-                <form class="navbar-form navbar-left" role="search" action="/PCALC/">
+                <%--<form class="navbar-form navbar-left" role="search" action="/PCALC/">--%>
 
-                </form>
+                <%--</form>--%>
                 <ul class="nav navbar-nav navbar-right">
-                    <%--<li><a href="/PCALC/">弁履歴</a></li>--%>
+                    <li><a href="/PCALC/">弁履歴</a></li>
                     <%--<li class="kengen-operation"><a href="/PCALC/kouji/add">新規弁</a></li>--%>
                     <li class="dropdown user user-menu">
                         <input type="hidden" id="username" value="${user.username}" />
