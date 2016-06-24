@@ -18,11 +18,18 @@
         </section>
     <!-- Main content -->
     <section class="content">
+        <c:if test="${message != null}">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissable">${message}</div>
+                </div>
+            </div>
+        </c:if>
         <hr/>
         <div class="row">
             <div class="panel panel-default">
-                <form id="ValveForm" name="ValveForm"  method="post">
-                    <input type="hidden" name="id" class="valve-form" value="${valve.valveId}"/>
+                <form id="ValveForm" name="ValveForm"  method="post" action="/PCALC/valve/edit" onsubmit="return checkValve()">
+                    <input type="hidden" name="valveId" id="valveId" class="valve-form" value="${valve.valveId}"/>
                     <div class="box box-solid box-primary">
                         <div class="box-header box-panel">
                             <h3 class="box-title">弁情報</h3>
@@ -152,10 +159,17 @@
         });
     }
     function checkPress(obj) {
+        //必須項目設定
+        var tmpValdacNo=$("#valdacNo").val();
+        if(tmpValdacNo==""){
+            window.alert("「弁番号」を入力ください");
+            return false;
+        }else if(tmpValdacNo.length>255){
+            window.alert("「弁番号」に最大255文字を入力ください");
+            return false;
+        }else{}
 
-    }
-
-    function deleteValve(obj) {
+        return true;
 
     }
 

@@ -22,6 +22,9 @@ public interface ValveMapper {
     /**データをテーブルに追加する*/
     public void insertValve(Valve valve);
 
+    /**データを更新する*/
+    public void updateValve(Valve valve);
+
     /**データを削除する*/
     public void deleteValve(Valve valve);
 

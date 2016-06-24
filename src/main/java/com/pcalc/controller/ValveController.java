@@ -57,7 +57,34 @@ public class ValveController {
         }
 
     }
+    /**
+     * 弁　編集
+     *
+     * @param valveForm 弁 更新後情報
+     *
+     * @return String　弁情報編集画面パス
+     * */
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String edit(@ModelAttribute("ValveForm")ValveForm valveForm, ModelMap modelMap, HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "login";
+        } else {
+            //valveFormからValveに変更し,弁IDと作成日付を追加
+            Valve valve = new Valve();
+            valve.makeupValveByForm(valveForm);
+            valve.setUserterm(user.getUserid());
+            //DB更新
+            valve=valveService.editValve(valve);
 
+            modelMap.addAttribute("valve",valve);
+            modelMap.addAttribute("message","更新完了");
+            session.setAttribute("valve",valve);
+
+            return "press";
+        }
+
+    }
 
     /**
      * valveの詳細ページへ遷移すう
@@ -91,10 +118,9 @@ public class ValveController {
      * @return String　工事リスト
      * */
     @RequestMapping(value = "/{valveId}/deleteValve", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    @ResponseBody
-    public  String deleteValve(@RequestParam("valveId")String valveId,ModelMap modelMap,HttpSession session){
+    public  String deleteValve(@PathVariable("valveId")String valveId,HttpSession session){
 
         valveService.deleteValve(valveId);
-        return "";
+        return "redirect:/";
     }
 }

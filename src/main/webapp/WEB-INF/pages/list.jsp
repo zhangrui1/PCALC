@@ -187,57 +187,6 @@
 
 </script>
 
-<script type="text/javascript">
-
-//    $(document).ready(function(){
-//
-//        $(".user-table tr").mouseover(function(obj){
-//            var tr = $(obj.currentTarget)[0];
-//            $(tr).find(".operation-button").css("opacity","1");
-//        });
-//        $(".user-table tr").mouseout(function(obj){
-//            var tr = $(obj.currentTarget)[0];
-//            $(tr).find(".operation-button").css("opacity","0");
-//        });
-//
-//        $("#table_search").keyup(function(){
-//            var keyword = $("#table_search").val();
-//            keyword = keyword.toLowerCase();
-//            keyword=keyword.trim();
-//            if(keyword.length > 0) {
-//                var trs = $(".active .user-table tbody tr");
-//                for (var i = 0; i < trs.length; i++) {
-//                    $(trs[i]).hide();
-//                    //是否是头
-//                    var ths = $(trs[i]).find("th");
-//                    if(ths.length > 0){
-//                        $(trs[i]).show();
-//                        continue;
-//                    }
-//                    //不是头的行
-//                    var tds = $(trs[i]).find("td");
-//
-//                    for (var j = 0; j < tds.length; j++) {
-//                        var tmpHtml = new String(tds[j].innerHTML);
-//                        tmpHtml=tmpHtml.toLowerCase();
-//                        if (tmpHtml.match(keyword)) {
-//                            $(trs[i]).show();
-//                            break;
-//                        }
-//                    }
-//                }
-//            } else {
-//                var trs = $(".active .user-table tbody tr");
-//                for (var i = 0; i < trs.length; i++) {
-//                    $(trs[i]).show();
-//                }
-//            }
-//        });
-//
-//    });
-
-</script>
-
 <c:import url="htmlframe/footerFrame.jsp" />
 
 </body>

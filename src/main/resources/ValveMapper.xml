@@ -27,6 +27,17 @@
         )
     </insert>
 
+    <update id="updateValve" parameterType="Valve">
+        UPDATE valve
+        SET
+        valdacNo=#{valdacNo},
+        biko=#{biko},
+        userterm=#{userterm},
+        updDate=#{updDate}
+        where
+        valveId=#{valveId}
+    </update>
+
     <update id="deleteValve" parameterType="Valve">
         UPDATE valve
         SET
