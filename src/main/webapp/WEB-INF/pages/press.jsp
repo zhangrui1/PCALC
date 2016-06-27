@@ -113,7 +113,8 @@
                                 </div>
                             </td>
                             <td>
-                                <a class="btn btn-primary operation-button-btn" href="#">計算</a>
+                                <%--<a class="btn btn-primary operation-button-btn" href="#">計算</a>--%>
+                                <button onclick="calculatePress(this)" class="btn btn-primary operation-button-btn">計算</button>
                                 <button onclick="deletePress(this)" class="btn btn-danger operation-button-btn">削除</button>
                             </td>
                         </tr>
@@ -132,30 +133,45 @@
 
     //新規追加する
     function addPress() {
-        $.get("/PCALC/press/addPress",{},function(data){
+        var valveId=$("#valveId").val();
+        $.get("/PCALC/press/addPress",{"valveId":valveId},function(data){
+            console.log("data="+data);
+            var press = JSON.parse(data);
             var table=document.getElementById("press-table");
             // 行を行末に追加
             var rows=table.insertRow(-1);
             // セルの挿入
-            var cell1=row.insertCell(-1);
-            // 行数取得
-            var row_len = table.rows.length;
-            // セルの内容入力
-            var htmlContent = "";
-//            htmlContent =
-//                    htmlContent + '' +
-//                    '<tr class="data-tr" id="'+data+'">' +
-//                    '<td>'+items[i].kjNo+'</td>' +
-//                    '<td>'+items[i].kjMeisyo+'</td>' +
-//                    '<td>'+items[i].location+'</td>' +
-//                    '<td>'+items[i].bgnYmd+'</td>' +
-//                    '<td>'+items[i].person+'</td>' +
-//                    '<td>'+items[i].status+'</td>' +
-//                    '<td>' +
-//                    '<a class="btn btn-primary btn-sm operation-button-btn" href="/ValdacConstruction/kouji/'+items[i].id+'"><i class="glyphicon glyphicon-pencil">編集</i></a>' +
-//                    '</td>' +
-//                    '</tr>';
+            var cell1=rows.insertCell(-1);
+            var cell2=rows.insertCell(-1);
+            var cell3=rows.insertCell(-1);
+            var cell4=rows.insertCell(-1);
+            var cell5=rows.insertCell(-1);
 
+            // セルの内容入力
+//            cell1.innerHTML=
+            cell1.innerHTML='<tr class="data-tr" id="'+press.pressId+'">' +
+                    '<td class="data-td" id="'+press.pressNum+'">' +press.pressNum
+                    '</td>'
+            cell2.innerHTML= '<td class="data-td">' +
+                    '<div>' +
+                    '<input type="text" name="base" id="base" class="form-control " value="'+press.base+'"/>'+
+                    '</div>' +
+                    '</td>'
+            cell3.innerHTML= '<td class="data-td">' +
+                    '<div>' +
+                    '<input type="text" name="pressG" id="pressG" class="form-control " value="'+press.pressG+'"/>'+
+                    '</div>' +
+                    '</td>'
+            cell4.innerHTML= '<td class="data-td">' +
+                    '<div>' +
+                    '<input type="text" name="pressResult" id="pressResult" class="form-control " value="'+press.pressResult+'"/>'+
+                    '</div>' +
+                    '</td>'
+            cell5.innerHTML= '<td>' +
+                    '<button onclick="calculatePress(this)" class="btn btn-primary operation-button-btn">計算</button>' +
+                    '<button onclick="deletePress(this)" class="btn btn-danger operation-button-btn">削除</button>' +
+                    '</td>' +
+                    '</tr>'
         });
     }
     function checkPress(obj) {
@@ -172,7 +188,22 @@
         return true;
 
     }
+    //press 計算する
+    function calculatePress(obj) {
+        var pressTr = $(obj).parent().parent();
+        var pressId = pressTr[0].id;
+        console.log("pressId="+pressTr[0].id);
+//        console.log("pressId="+pressTr[0]);
+//        console.log("pressId="+pressTr[0].id);
+//        console.log("pressId="+pressTr[0].id);
+//        console.log("pressId="+pressTr[0].id);
+//        console.log("pressId="+pressTr[0].id);
+//       $.get("/PCALC/press/calculatePress",{"pressId":pressId},function(data){
+//
+//        });
+    }
 
+    //press 削除する
     function deletePress(obj) {
         var pressTr = $(obj).parent().parent();
         var pressId = pressTr[0].id;

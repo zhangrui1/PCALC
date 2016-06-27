@@ -6,12 +6,12 @@
         select * from press where valveId=#{valveId} and delFlg=#{delFlg}
     </select>
 
-    <select id="findAllValveByPressId" parameterType="int" resultType="Press">
+    <select id="findPressByPressId" parameterType="int" resultType="Press">
         select * from press where pressId=#{pressId}
     </select>
 
     <select id="getLastInsertId" resultType="int">
-        select valveId from press ORDER BY valveId DESC limit 1
+        select pressId from press ORDER BY pressId DESC limit 1
     </select>
 
     <select id="getLastpressNumByValveId" resultType="int">

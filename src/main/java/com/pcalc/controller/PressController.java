@@ -1,5 +1,6 @@
 package com.pcalc.controller;
 
+import com.google.gson.Gson;
 import com.pcalc.dao.PressMapper;
 import com.pcalc.dto.ValveForm;
 import com.pcalc.entity.Press;
@@ -37,19 +38,31 @@ public class PressController {
      * */
     @RequestMapping(value = "/addPress", method = RequestMethod.GET)
     @ResponseBody
-    public String addPress(@RequestParam("valveId")String valveId, ModelMap modelMap,HttpSession session){
-        Press press=new Press();
-        press.setValveId(Integer.parseInt(valveId));
-        //pressNum 設定
-        List<Press> pressList=pressService.getPressByValveId(valveId);
-        if(pressList.size()>0){
-            press.setPressNum(pressMapper.getLastpressNumByValveId(Integer.parseInt(valveId)+1));
-        }else{
-            press.setPressNum(1);
+    public String addPress(@RequestParam("valveId")String valveId,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "login";
+        } else {
+            Press press=new Press();
+            press.setValveId(Integer.parseInt(valveId));
+            press.setUserterm(user.getUserid());
+            //pressNum 設定
+            List<Press> pressList=pressService.getPressByValveId(valveId);
+            if(pressList.size()>0){
+                press.setPressNum(pressMapper.getLastpressNumByValveId(Integer.parseInt(valveId))+1);
+            }else{
+                press.setPressNum(1);
+            }
+
+            press=pressService.addPress(press);//新規空データ追加した
+
+            Gson gson=new Gson();
+            System.out.println("press="+gson.toJson(press));
+
+            return ""+gson.toJson(press);
         }
 
-        press=pressService.addPress(press);//新規空データ追加した
-        return ""+press.getPressId();
+
     }
 
     /**
