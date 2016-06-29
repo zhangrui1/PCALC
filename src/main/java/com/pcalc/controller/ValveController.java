@@ -1,5 +1,6 @@
 package com.pcalc.controller;
 
+import com.pcalc.controller.utilities.StringUtil;
 import com.pcalc.dao.ValveMapper;
 import com.pcalc.dto.ValveForm;
 import com.pcalc.entity.Press;
@@ -35,20 +36,24 @@ public class ValveController {
     /**
      * 弁　新規登録
      *
-     * @param valveForm 新規弁情報
      *
      * @return String　弁一覧画面パス
      * */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addValveKiki(@ModelAttribute("ValveForm")ValveForm valveForm, ModelMap modelMap,HttpSession session) throws IOException {
+    public String addValveKiki(@RequestParam("valdacNo")String valdacNo, @RequestParam("biko")String biko,ModelMap modelMap,HttpSession session) throws IOException {
 
         User user = (User) session.getAttribute("user");
         if(user == null){
             return "login";
         } else {
+            //UTF-8に修正
+            String tmpBiko = StringUtil.changeToUTF8(biko);
+            String tmpValdacNo = StringUtil.changeToUTF8(valdacNo);
+
             //valve table 更新
             Valve valve=new Valve();
-            valve.makeupValveByForm(valveForm);
+            valve.setBiko(tmpBiko);
+            valve.setValdacNo(tmpValdacNo);
             valve.setUserterm(user.getUserid());
             valve=valveService.addValve(valve);
 
@@ -60,19 +65,25 @@ public class ValveController {
     /**
      * 弁　編集
      *
-     * @param valveForm 弁 更新後情報
      *
      * @return String　弁情報編集画面パス
      * */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("ValveForm")ValveForm valveForm, ModelMap modelMap, HttpSession session) throws IOException {
+    public String edit(@RequestParam("valveId")String valveId,@RequestParam("valdacNo")String valdacNo, @RequestParam("biko")String biko, ModelMap modelMap, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
         if(user == null){
             return "login";
         } else {
-            //valveFormからValveに変更し,弁IDと作成日付を追加
+            //UTF-8に修正
+            String tmpBiko = StringUtil.changeToUTF8(biko);
+            String tmpValdacNo = StringUtil.changeToUTF8(valdacNo);
+
+
+            //valve table 更新
             Valve valve = new Valve();
-            valve.makeupValveByForm(valveForm);
+            valve.setValveId(Integer.parseInt(valveId));
+            valve.setBiko(tmpBiko);
+            valve.setValdacNo(tmpValdacNo);
             valve.setUserterm(user.getUserid());
             //DB更新
             valve=valveService.editValve(valve);

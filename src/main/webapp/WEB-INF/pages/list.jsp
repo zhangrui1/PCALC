@@ -1,8 +1,6 @@
-<%@ page import="com.pcalc.entity.User" %>
-<%@ page import="java.util.List" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="htmlframe/headFrame.jsp" />
 <body class="skin-blue">
 <!-- header logo: style can be found in header.less -->
