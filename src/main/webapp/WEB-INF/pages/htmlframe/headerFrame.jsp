@@ -27,7 +27,7 @@
                 <%--<form class="navbar-form navbar-left" role="search" action="/PCALC/">--%>
 
                 <%--</form>--%>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-left">
                     <li><a href="/PCALC/">弁履歴</a></li>
                     <%--<li class="kengen-operation"><a href="/PCALC/kouji/add">新規弁</a></li>--%>
                     <li class="dropdown user user-menu">
