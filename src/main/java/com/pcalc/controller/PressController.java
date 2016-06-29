@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 /**
@@ -60,6 +61,39 @@ public class PressController {
             System.out.println("press="+gson.toJson(press));
 
             return ""+gson.toJson(press);
+        }
+
+
+    }
+
+    /**
+     * Press　新規登録
+     *
+     * @return String　弁一覧画面パス
+     * */
+    @RequestMapping(value = "/calculatePress", method = RequestMethod.GET)
+    @ResponseBody
+    public String calculatePress(@RequestParam("pressId")String pressId,@RequestParam("base")String base,@RequestParam("pressG")String pressG,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "login";
+        } else {
+            //変数
+            double Doubase=Double.parseDouble(base);
+            double DouPressG=Double.parseDouble(pressG);
+
+            Press press=new Press();
+            press.setPressId(Integer.parseInt(pressId));
+            press.setUserterm(user.getUserid());
+            press.setBase(Doubase);
+            press.setPressG(DouPressG);
+
+            double result=Doubase+DouPressG;
+            press.setPressResult(result);
+
+            //DB更新する
+            pressService.editPress(press);
+            return ""+result;
         }
 
 

@@ -99,23 +99,23 @@
                             <td class="data-td">${press.pressNum}</td>
                             <td class="data-td">
                                 <div>
-                                    <input type="text" name="base" id="base" class="form-control " value="${press.base}" />
+                                    <input type="text" name="press-base-${press.pressId}" id="press-base-${press.pressId}" class="form-control " value="${press.base}" />
                                 </div>
                             </td>
                             <td class="data-td">
                                 <div>
-                                    <input type="text" name="pressG" id="pressG" class="form-control" value="${press.pressG}" />
+                                    <input type="text" name="press-pressG-${press.pressId}" id="press-pressG-${press.pressId}" class="form-control" value="${press.pressG}" />
                                 </div>
                             </td>
                             <td class="data-td">
                                 <div>
-                                    <input type="text" name="pressResult" id="pressResult" class="form-control" value="${press.pressResult}" />
+                                    <input type="text" name="press-pressResult-${press.pressId}" id="press-pressResult-${press.pressId}" class="form-control" value="${press.pressResult}" />
                                 </div>
                             </td>
-                            <td>
+                            <td id="${press.pressId}">
                                 <%--<a class="btn btn-primary operation-button-btn" href="#">計算</a>--%>
-                                <button onclick="calculatePress(this)" class="btn btn-primary operation-button-btn">計算</button>
-                                <button onclick="deletePress(this)" class="btn btn-danger operation-button-btn">削除</button>
+                                <button onclick="calculatePress(${press.pressId})" class="btn btn-primary operation-button-btn">計算</button>
+                                <button onclick="deletePress(${press.pressId})" class="btn btn-danger operation-button-btn">削除</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -148,30 +148,40 @@
             var cell5=rows.insertCell(-1);
 
             // セルの内容入力
-//            cell1.innerHTML=
-            cell1.innerHTML='<tr class="data-tr" id="'+press.pressId+'">' +
-                    '<td class="data-td" id="'+press.pressNum+'">' +press.pressNum
+            console.log("press.pressId="+press.pressId);
+            var StrId=press.pressId;
+            var StrBaseId="press-base-"+press.pressId;
+            var StrPressId="press-pressG-"+press.pressId;
+            var StrResultId="press-pressResult-"+press.pressId;
+
+            cell1.innerHTML= '<tr class="data-tr" id="'+press.pressId+'">' +
+                    '<td class="data-td" id="'+press.pressNum+'">' +press.pressNum+
                     '</td>'
             cell2.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="base" id="base" class="form-control " value="'+press.base+'"/>'+
+                    '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
                     '</div>' +
                     '</td>'
             cell3.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="pressG" id="pressG" class="form-control " value="'+press.pressG+'"/>'+
+                    '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
                     '</div>' +
                     '</td>'
             cell4.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="pressResult" id="pressResult" class="form-control " value="'+press.pressResult+'"/>'+
+                    '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
                     '</div>' +
                     '</td>'
-            cell5.innerHTML= '<td>' +
-                    '<button onclick="calculatePress(this)" class="btn btn-primary operation-button-btn">計算</button>' +
-                    '<button onclick="deletePress(this)" class="btn btn-danger operation-button-btn">削除</button>' +
+            cell5.innerHTML= '<td id="'+press.pressId+'">' +
+                    '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
+                    '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
                     '</td>' +
                     '</tr>'
+
+            console.log("rows.innerHTML="+rows.innerHTML);
+
+            console.log("cell1.innerHTML="+cell1.innerHTML);
+
         });
     }
     function checkPress(obj) {
@@ -190,24 +200,30 @@
     }
     //press 計算する
     function calculatePress(obj) {
-        var pressTr = $(obj).parent().parent();
-        var pressId = pressTr[0].id;
-        console.log("pressId="+pressTr[0].id);
-//        console.log("pressId="+pressTr[0]);
-//        console.log("pressId="+pressTr[0].id);
-//        console.log("pressId="+pressTr[0].id);
-//        console.log("pressId="+pressTr[0].id);
-//        console.log("pressId="+pressTr[0].id);
-//       $.get("/PCALC/press/calculatePress",{"pressId":pressId},function(data){
-//
-//        });
+        console.log("press  Id="+ obj);
+//        var pressTr = $(obj).parent().parent();
+//        var pressId = pressTr[0].id;
+        var pressId=obj;
+        var tmpBase=document.getElementById("press-base-"+pressId).value;
+        var tmpPressG=document.getElementById("press-pressG-"+pressId).value;
+
+        console.log("tmpBase    "+tmpBase);
+        console.log("tmpPressG    "+tmpPressG);
+        $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
+            console.log("tmpResult    "+data);
+            document.getElementById("press-pressResult-"+pressId).value=data;
+        });
+
     }
 
     //press 削除する
     function deletePress(obj) {
-        var pressTr = $(obj).parent().parent();
-        var pressId = pressTr[0].id;
-
+        var pressId=obj;
+//        var pressTr = $(obj).parent().parent();
+//        var pressId = pressTr[0].id;
+//        console.log("pressId before="+pressId);
+//        pressId=pressId.replace("press-","");
+        console.log("delete pressId="+pressId);
         if (!confirm("この行を削除しますか？"))
             return;
 

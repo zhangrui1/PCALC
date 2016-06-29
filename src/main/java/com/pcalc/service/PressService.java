@@ -52,6 +52,19 @@ public class PressService {
         return press;
     }
 
+
+    /**弁更新*/
+    public String editPress(Press press){
+
+        //append Date
+        Date date = new Date();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        press.setUpdDate(sdf1.format(date));
+
+        pressMapper.updatePress(press);
+        return "";
+    }
+
     /**pressIdにより　削除*/
     public void deletePressByPressId(String pressId){
 
