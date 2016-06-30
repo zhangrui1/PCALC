@@ -224,10 +224,10 @@
         console.log("tmpPressG    "+tmpPressG);
         //データチェック
         //isNaN();   数字場合⇒false  その以外⇒true
-        if((isNaN(tmpBase))){
+        if((isNaN(tmpBase) || tmpBase.length<1)){
             window.alert("ベースに半角数字のみを入力してください");
             return false;
-        }else if((isNaN(tmpPressG))){
+        }else if((isNaN(tmpPressG)  || tmpPressG.length<1)){
             window.alert("ユアツに半角数字のみを入力してください");
             return false;
         }else{
