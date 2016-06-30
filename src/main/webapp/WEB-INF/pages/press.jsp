@@ -20,12 +20,12 @@
     <section class="content">
         <div class="row">
             <!-- collection -->
-            <div class="col-md-1">
+            <div class="col-md-2 pull-left">
                 <form  action="/PCALC/"  method="GET">
                     <input type="submit" class="btn btn-default" onclick="submitPrintForm()" value="弁履歴"/>
                 </form>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 pull-right">
                 <form  action="/PCALC/logout"  method="GET">
                     <input type="submit" class="btn btn-default"  value="ログアウト"/>
                 </form>
@@ -223,25 +223,43 @@
         console.log("tmpBase    "+tmpBase);
         console.log("tmpPressG    "+tmpPressG);
         //データチェック
-//        console.log("tmpBase 1="+tmpBase.match(/^[0-9]+\.[0-9]+$/));
-//        console.log("tmpBase 2="+tmpBase.match(/^[0-9]+$/));
-//
-//        if(!(tmpBase.match(/^[0-9]+\.[0-9]+$/)) ||(tmpBase.match(/^[0-9]+$/))){
-//            window.alert("ベースに数字のみを入力してください");
-//            return false;
-//        }else if(!(tmpPressG.match(/^[0-9]+\.[0-9]+$/)) ||(tmpPressG.match(/^[0-9]+$/))){
-//            window.alert("ユアツに数字のみを入力してください");
-//            return false;
-//        }else{
-//            $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
-//                console.log("tmpResult    "+data);
-//                document.getElementById("press-pressResult-"+pressId).value=data;
-//            });
-//        }
-        $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
-            console.log("tmpResult    "+data);
-            document.getElementById("press-pressResult-"+pressId).value=data;
-        });
+        //isNaN();   数字場合⇒false  その以外⇒true
+        if((isNaN(tmpBase))){
+            window.alert("ベースに半角数字のみを入力してください");
+            return false;
+        }else if((isNaN(tmpPressG))){
+            window.alert("ユアツに半角数字のみを入力してください");
+            return false;
+        }else{
+            $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
+                console.log("tmpResult    "+data);
+                document.getElementById("press-pressResult-"+pressId).value=data;
+            });
+        }
+    }
+
+    //弁長さ判断
+    function checkValve() {
+        //tmpBase　長さ判断
+        var tmpBase=document.getElementById("valdacNo").value;
+        if(tmpBase.length<1 ){
+            window.alert("弁番号を255文字以内にしてください。");
+            return false;
+        }else if(tmpBase.length>255 ){
+            window.alert("弁番号を255文字以内にしてください。");
+            return false;
+        }
+        //tmpPressG　長さ判断
+        var tmpPressG=document.getElementById("biko").value;
+        if(tmpPressG.length<1 ){
+            window.alert("備考を255文字以内にしてください。");
+            return false;
+        }else if(tmpPressG.length>255 ){
+            window.alert("備考を255文字以内にしてください。");
+            return false;
+        }
+
+        return true;
     }
 
     //press 削除する

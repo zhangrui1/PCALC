@@ -18,12 +18,12 @@
     <section class="content">
         <div class="row">
             <!-- collection -->
-                <div class="col-md-1">
+                <div class="col-md-2 pull-left">
                     <form  action="/PCALC/"  method="GET">
                         <input type="submit" class="btn btn-default" onclick="submitPrintForm()" value="弁履歴"/>
                     </form>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 pull-right">
                     <form  action="/PCALC/logout"  method="GET">
                         <input type="submit" class="btn btn-default"  value="ログアウト"/>
                     </form>
@@ -89,7 +89,7 @@
                         <h4 class="modal-title" id="myModalLabel">弁</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="ValveForm" action="/PCALC/valve/add" name="ValveForm" method="post" onsubmit="return checkUser()">
+                        <form id="ValveForm" action="/PCALC/valve/add" name="ValveForm" method="post" onsubmit="return checkValve()">
                             <div class="panel panel-danger">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">弁情報</h3>
@@ -102,9 +102,6 @@
                                         <div class="col-md-4">
                                             <input type="text" name="valdacNo" id="valdacNo" class="form-control valdacForm-input" value="" />
                                         </div>
-                                        <%--<div class="col-md-4">--%>
-                                            <%--※：重複登録できません--%>
-                                        <%--</div>--%>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col-md-2">
@@ -136,6 +133,30 @@
     function addMaster(){
         $(".valdacForm-input").val("");
         $("#valveModal").modal("show");
+    }
+
+    //弁長さ判断
+    function checkValve() {
+        //tmpBase　長さ判断
+        var tmpBase=document.getElementById("valdacNo").value;
+        if(tmpBase.length<1 ){
+            window.alert("弁番号を入力してください。");
+            return false;
+        }else if(tmpBase.length>255 ){
+            window.alert("弁番号を255文字以内にしてください。");
+            return false;
+        }
+        //tmpPressG　長さ判断
+        var tmpPressG=document.getElementById("biko").value;
+        if(tmpPressG.length<1 ){
+            window.alert("備考を入力してください。");
+            return false;
+        }else if(tmpPressG.length>255 ){
+            window.alert("備考を255文字以内にしてください。");
+            return false;
+        }
+
+        return true;
     }
 
     function deleteValve(obj) {
