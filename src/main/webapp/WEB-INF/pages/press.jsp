@@ -7,17 +7,31 @@
 <body class="skin-blue">
 <!-- header logo: style can be found in header.less -->
 <c:import url="htmlframe/headerFrame.jsp"/>
-<div class="wrapper row-offcanvas row-offcanvas-left">
+<div class="wrapper row-offcanvas row-offcanvas-center">
     <!-- Right side column. Contains the navbar and content of the page -->
     <%--<aside class="right-side">--%>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                弁の油圧
-            </h1>
+            <%--<h1>--%>
+                <%--弁の油圧--%>
+            <%--</h1>--%>
         </section>
     <!-- Main content -->
     <section class="content">
+        <div class="row">
+            <!-- collection -->
+            <div class="col-md-1">
+                <form  action="/PCALC/"  method="GET">
+                    <input type="submit" class="btn btn-default" onclick="submitPrintForm()" value="弁履歴"/>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <form  action="/PCALC/logout"  method="GET">
+                    <input type="submit" class="btn btn-default"  value="ログアウト"/>
+                </form>
+            </div>
+        </div></br>
+
         <c:if test="${message != null}">
             <div class="row">
                 <div class="col-md-12">
@@ -206,14 +220,28 @@
         var pressId=obj;
         var tmpBase=document.getElementById("press-base-"+pressId).value;
         var tmpPressG=document.getElementById("press-pressG-"+pressId).value;
-
         console.log("tmpBase    "+tmpBase);
         console.log("tmpPressG    "+tmpPressG);
+        //データチェック
+//        console.log("tmpBase 1="+tmpBase.match(/^[0-9]+\.[0-9]+$/));
+//        console.log("tmpBase 2="+tmpBase.match(/^[0-9]+$/));
+//
+//        if(!(tmpBase.match(/^[0-9]+\.[0-9]+$/)) ||(tmpBase.match(/^[0-9]+$/))){
+//            window.alert("ベースに数字のみを入力してください");
+//            return false;
+//        }else if(!(tmpPressG.match(/^[0-9]+\.[0-9]+$/)) ||(tmpPressG.match(/^[0-9]+$/))){
+//            window.alert("ユアツに数字のみを入力してください");
+//            return false;
+//        }else{
+//            $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
+//                console.log("tmpResult    "+data);
+//                document.getElementById("press-pressResult-"+pressId).value=data;
+//            });
+//        }
         $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
             console.log("tmpResult    "+data);
             document.getElementById("press-pressResult-"+pressId).value=data;
         });
-
     }
 
     //press 削除する

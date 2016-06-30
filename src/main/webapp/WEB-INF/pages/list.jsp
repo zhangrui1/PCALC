@@ -10,13 +10,25 @@
     <%--<aside class="right-side">--%>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                弁リスト
-            </h1>
+            <%--<h1>--%>
+                <%--弁リスト--%>
+            <%--</h1>--%>
         </section>
     <!-- Main content -->
     <section class="content">
-        <hr/>
+        <div class="row">
+            <!-- collection -->
+                <div class="col-md-1">
+                    <form  action="/PCALC/"  method="GET">
+                        <input type="submit" class="btn btn-default" onclick="submitPrintForm()" value="弁履歴"/>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <form  action="/PCALC/logout"  method="GET">
+                        <input type="submit" class="btn btn-default"  value="ログアウト"/>
+                    </form>
+                </div>
+        </div></br>
 
         <div class="row">
             <div class="col-md-12">
