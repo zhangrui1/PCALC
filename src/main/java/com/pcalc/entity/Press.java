@@ -17,6 +17,9 @@ public class Press implements Serializable {
     public int pressNum;
     public double base;
     public double pressG;
+    public double pressHigh;
+    public double keisu;
+    public double adjust;
     public double pressResult;
     public String userterm;
     public String delFlg;
@@ -62,6 +65,30 @@ public class Press implements Serializable {
 
     public void setPressG(double pressG) {
         this.pressG = pressG;
+    }
+
+    public double getPressHigh() {
+        return pressHigh;
+    }
+
+    public void setPressHigh(double pressHigh) {
+        this.pressHigh = pressHigh;
+    }
+
+    public double getKeisu() {
+        return keisu;
+    }
+
+    public void setKeisu(double keisu) {
+        this.keisu = keisu;
+    }
+
+    public double getAdjust() {
+        return adjust;
+    }
+
+    public void setAdjust(double adjust) {
+        this.adjust = adjust;
     }
 
     public double getPressResult() {

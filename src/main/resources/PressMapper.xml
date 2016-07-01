@@ -20,12 +20,15 @@
 
     <insert id="insertPress" parameterType="Press">
         insert into
-        press( valveId, pressNum, base,pressG, pressResult,userterm,delFlg, trkDate, updDate)
+        press( valveId, pressNum, base,pressG, pressHigh,keisu,adjust,pressResult,userterm,delFlg, trkDate, updDate)
         values(
         #{valveId},
         #{pressNum},
         #{base},
         #{pressG},
+        #{pressHigh},
+        #{keisu},
+        #{adjust},
         #{pressResult},
         #{userterm},
         #{delFlg},
@@ -39,6 +42,9 @@
         SET
         base=#{base},
         pressG=#{pressG},
+        pressHigh=#{pressHigh},
+        keisu=#{keisu},
+        adjust=#{adjust},
         pressResult=#{pressResult},
         userterm=#{userterm},
         updDate=#{updDate}

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class PressController {
      * */
     @RequestMapping(value = "/calculatePress", method = RequestMethod.GET)
     @ResponseBody
-    public String calculatePress(@RequestParam("pressId")String pressId,@RequestParam("base")String base,@RequestParam("pressG")String pressG,HttpSession session){
+    public String calculatePress(@RequestParam("pressId")String pressId,@RequestParam("base")String base,@RequestParam("pressG")String pressG,@RequestParam("pressHigh")String pressHigh,@RequestParam("keisu")String keisu,@RequestParam("adjust")String adjust,HttpSession session){
         User user = (User) session.getAttribute("user");
         if(user == null){
             return "login";
@@ -81,14 +82,27 @@ public class PressController {
             //変数
             double Doubase=Double.parseDouble(base);
             double DouPressG=Double.parseDouble(pressG);
+            double DouHigh=Double.parseDouble(pressHigh);
+            double DouKeisu=Double.parseDouble(keisu);
+            double DouAdjust=Double.parseDouble(adjust);
 
             Press press=new Press();
             press.setPressId(Integer.parseInt(pressId));
             press.setUserterm(user.getUserid());
             press.setBase(Doubase);
             press.setPressG(DouPressG);
+            press.setPressHigh(DouHigh);
+            press.setKeisu(DouKeisu);
+            press.setAdjust(DouAdjust);
 
-            double result=Doubase+DouPressG;
+            double result=0;
+            if(DouKeisu>0){
+                result=Doubase+((DouPressG-0.00863*DouHigh)/DouKeisu);
+            }
+            //元データをBigDecimal型にする
+            BigDecimal bd = new BigDecimal(result);
+            BigDecimal bd3 = bd.setScale(2, BigDecimal.ROUND_DOWN);  //切り捨て　小数第3位
+            result=bd3.doubleValue();
             press.setPressResult(result);
 
             //DB更新する

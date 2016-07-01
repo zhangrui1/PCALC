@@ -103,6 +103,9 @@
                         <th>番号<span id="press_num" class="press_num">(${pressListNum})</span></th>
                         <th>ベース</th>
                         <th>ユアツ</th>
+                        <th>高さ</th>
+                        <th>係数</th>
+                        <th>調整</th>
                         <th>結果</th>
                         <th>詳細</th>
                     </tr>
@@ -119,6 +122,21 @@
                             <td class="data-td">
                                 <div>
                                     <input type="text" name="press-pressG-${press.pressId}" id="press-pressG-${press.pressId}" class="form-control" value="${press.pressG}" />
+                                </div>
+                            </td>
+                            <td class="data-td">
+                                <div>
+                                    <input type="text" name="press-pressHigh-${press.pressId}" id="press-pressHigh-${press.pressId}" class="form-control" value="${press.pressHigh}" />
+                                </div>
+                            </td>
+                            <td class="data-td">
+                                <div>
+                                    <input type="text" name="press-keisu-${press.pressId}" id="press-keisu-${press.pressId}" class="form-control" value="${press.keisu}" />
+                                </div>
+                            </td>
+                            <td class="data-td">
+                                <div>
+                                    <input type="text" name="press-adjust-${press.pressId}" id="press-adjust-${press.pressId}" class="form-control" value="${press.adjust}" />
                                 </div>
                             </td>
                             <td class="data-td">
@@ -160,12 +178,18 @@
             var cell3=rows.insertCell(-1);
             var cell4=rows.insertCell(-1);
             var cell5=rows.insertCell(-1);
+            var cell6=rows.insertCell(-1);
+            var cell7=rows.insertCell(-1);
+            var cell8=rows.insertCell(-1);
 
             // セルの内容入力
             console.log("press.pressId="+press.pressId);
             var StrId=press.pressId;
             var StrBaseId="press-base-"+press.pressId;
             var StrPressId="press-pressG-"+press.pressId;
+            var StrHighId="press-pressHigh-"+press.pressId;
+            var StrKeisuId="press-keisu-"+press.pressId;
+            var StrAdjustId="press-adjust-"+press.pressId;
             var StrResultId="press-pressResult-"+press.pressId;
 
             cell1.innerHTML= '<tr class="data-tr" id="'+press.pressId+'">' +
@@ -183,18 +207,33 @@
                     '</td>'
             cell4.innerHTML= '<td class="data-td">' +
                     '<div>' +
+                    '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
+                    '</div>' +
+                    '</td>'
+            cell5.innerHTML= '<td class="data-td">' +
+                    '<div>' +
+                    '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
+                    '</div>' +
+                    '</td>'
+            cell6.innerHTML= '<td class="data-td">' +
+                    '<div>' +
+                    '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
+                    '</div>' +
+                    '</td>'
+            cell7.innerHTML= '<td class="data-td">' +
+                    '<div>' +
                     '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
                     '</div>' +
                     '</td>'
-            cell5.innerHTML= '<td id="'+press.pressId+'">' +
+            cell8.innerHTML= '<td id="'+press.pressId+'">' +
                     '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
                     '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
                     '</td>' +
                     '</tr>'
 
-            console.log("rows.innerHTML="+rows.innerHTML);
+//            console.log("rows.innerHTML="+rows.innerHTML);
 
-            console.log("cell1.innerHTML="+cell1.innerHTML);
+//            console.log("cell1.innerHTML="+cell1.innerHTML);
 
         });
     }
@@ -220,6 +259,9 @@
         var pressId=obj;
         var tmpBase=document.getElementById("press-base-"+pressId).value;
         var tmpPressG=document.getElementById("press-pressG-"+pressId).value;
+        var tmpHith=document.getElementById("press-pressHigh-"+pressId).value;
+        var tmpKeisu=document.getElementById("press-keisu-"+pressId).value;
+        var tmpAdjust=document.getElementById("press-adjust-"+pressId).value;
         console.log("tmpBase    "+tmpBase);
         console.log("tmpPressG    "+tmpPressG);
         //データチェック
@@ -230,8 +272,14 @@
         }else if((isNaN(tmpPressG)  || tmpPressG.length<1)){
             window.alert("ユアツに半角数字のみを入力してください");
             return false;
+        }else if((isNaN(tmpHith)  || tmpHith.length<1)){
+            window.alert("高さに半角数字のみを入力してください");
+            return false;
+        }else if((isNaN(tmpKeisu)  || tmpKeisu.length<1)){
+            window.alert("係数に半角数字のみを入力してください");
+            return false;
         }else{
-            $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG},function(data){
+            $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG,"pressHigh":tmpHith,"keisu":tmpKeisu,"adjust":tmpAdjust},function(data){
                 console.log("tmpResult    "+data);
                 document.getElementById("press-pressResult-"+pressId).value=data;
             });
@@ -274,11 +322,12 @@
             return;
 
         $.get("/PCALC/press/deletePressByPressId",{"pressId":pressId},function(data){
-            var objTR=obj.parentNode.parentNode;
-            var objTBL=objTR.parentNode;
-            if(objTBL){
-                objTBL.deleteRow(objTR.sectionRowIndex);
-            }
+            document.getElementById(obj).style.display="none";
+//            var objTR=obj.parentNode.parentNode;
+//            var objTBL=objTR.parentNode;
+//            if(objTBL){
+//                objTBL.deleteRow(objTR.sectionRowIndex);
+//            }
         });
     }
 
