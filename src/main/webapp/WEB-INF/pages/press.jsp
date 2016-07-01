@@ -147,6 +147,7 @@
                             <td id="${press.pressId}">
                                 <%--<a class="btn btn-primary operation-button-btn" href="#">計算</a>--%>
                                 <button onclick="calculatePress(${press.pressId})" class="btn btn-primary operation-button-btn">計算</button>
+                                <button onclick="reCalculatePress(${press.pressId})" class="btn btn-warning operation-button-btn">逆計算</button>
                                 <button onclick="deletePress(${press.pressId})" class="btn btn-danger operation-button-btn">削除</button>
                             </td>
                         </tr>
@@ -227,6 +228,7 @@
                     '</td>'
             cell8.innerHTML= '<td id="'+press.pressId+'">' +
                     '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
+                    '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button>' +
                     '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
                     '</td>' +
                     '</tr>'
@@ -282,6 +284,40 @@
             $.get("/PCALC/press/calculatePress",{"pressId":pressId,"base":tmpBase,"pressG":tmpPressG,"pressHigh":tmpHith,"keisu":tmpKeisu,"adjust":tmpAdjust},function(data){
                 console.log("tmpResult    "+data);
                 document.getElementById("press-pressResult-"+pressId).value=data;
+            });
+        }
+    }
+
+    //press 油圧　逆計算する
+    function reCalculatePress(obj) {
+        console.log("press  Id="+ obj);
+        var pressId=obj;
+        var tmpBase=document.getElementById("press-base-"+pressId).value;
+        var tmpPressG=document.getElementById("press-pressG-"+pressId).value;
+        var tmpHith=document.getElementById("press-pressHigh-"+pressId).value;
+        var tmpKeisu=document.getElementById("press-keisu-"+pressId).value;
+        var tmpAdjust=document.getElementById("press-adjust-"+pressId).value;
+        var tmpPressResult=document.getElementById("press-pressResult-"+pressId).value;
+        console.log("tmpBase    "+tmpBase);
+        console.log("tmpPressG    "+tmpPressG);
+        //データチェック
+        //isNaN();   数字場合⇒false  その以外⇒true
+        if((isNaN(tmpBase) || tmpBase.length<1)){
+            window.alert("ベースに半角数字のみを入力してください");
+            return false;
+        }else if((isNaN(tmpHith)  || tmpHith.length<1)){
+            window.alert("高さに半角数字のみを入力してください");
+            return false;
+        }else if((isNaN(tmpPressResult)  || tmpPressResult.length<1)){
+            window.alert("結果に半角数字のみを入力してください");
+            return false;
+        }else if((isNaN(tmpKeisu)  || tmpKeisu.length<1)){
+            window.alert("係数に半角数字のみを入力してください");
+            return false;
+        }else{
+            $.get("/PCALC/press/reCalculatePress",{"pressId":pressId,"base":tmpBase,"pressResult":tmpPressResult,"pressHigh":tmpHith,"keisu":tmpKeisu,"adjust":tmpAdjust},function(data){
+                console.log("tmpPressG    "+data);
+                document.getElementById("press-pressG-"+pressId).value=data;
             });
         }
     }

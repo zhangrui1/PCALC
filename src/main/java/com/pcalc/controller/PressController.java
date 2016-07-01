@@ -109,6 +109,49 @@ public class PressController {
             pressService.editPress(press);
             return ""+result;
         }
+    }
+
+    /**
+     * Press　逆計算
+     *
+     * @return String　弁一覧画面パス
+     * */
+    @RequestMapping(value = "/reCalculatePress", method = RequestMethod.GET)
+    @ResponseBody
+    public String reCalculatePress(@RequestParam("pressId")String pressId,@RequestParam("base")String base,@RequestParam("pressResult")String pressResult,@RequestParam("pressHigh")String pressHigh,@RequestParam("keisu")String keisu,@RequestParam("adjust")String adjust,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            return "login";
+        } else {
+            //変数
+            double Doubase=Double.parseDouble(base);
+            double DouPressResult=Double.parseDouble(pressResult);
+            double DouHigh=Double.parseDouble(pressHigh);
+            double DouKeisu=Double.parseDouble(keisu);
+            double DouAdjust=Double.parseDouble(adjust);
+
+            Press press=new Press();
+            press.setPressId(Integer.parseInt(pressId));
+            press.setUserterm(user.getUserid());
+            press.setBase(Doubase);
+            press.setPressResult(DouPressResult);
+            press.setPressHigh(DouHigh);
+            press.setKeisu(DouKeisu);
+            press.setAdjust(DouAdjust);
+
+            double pressG=0;
+            pressG=((DouPressResult-Doubase)*DouKeisu)+(0.00863*DouHigh);
+            //元データをBigDecimal型にする
+            BigDecimal bd = new BigDecimal(pressG);
+            BigDecimal bd3 = bd.setScale(1, BigDecimal.ROUND_HALF_UP);  //四捨五入する　小数第3位
+            pressG=bd3.doubleValue();
+
+            press.setPressG(pressG);
+
+            //DB更新する
+            pressService.editPress(press);
+            return ""+pressG;
+        }
 
 
     }
