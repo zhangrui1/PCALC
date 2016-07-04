@@ -18,6 +18,10 @@
         select pressNum from press where valveId=#{valveId} ORDER BY pressNum DESC limit 1
     </select>
 
+    <select id="findLastPressByValveId" parameterType="Press" resultType="Press">
+        select * from press where valveId=#{valveId} and delFlg=#{delFlg} ORDER BY pressNum DESC limit 1
+    </select>
+
     <insert id="insertPress" parameterType="Press">
         insert into
         press( valveId, pressNum, base,pressG, pressHigh,keisu,adjust,pressResult,userterm,delFlg, trkDate, updDate)

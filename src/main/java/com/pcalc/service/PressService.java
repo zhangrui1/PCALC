@@ -35,6 +35,15 @@ public class PressService {
         press = pressMapper.findPressByPressId(Integer.parseInt(pressId));
         return press;
     }
+    /**valveIDにより　データを抽出する*/
+    public Press getLastPressByValveId(String valveId){
+        Press press=new Press();
+        press.setValveId(Integer.parseInt(valveId));
+        press.setDelFlg("0");
+
+        press = pressMapper.findLastPressByValveId(press);
+        return press;
+    }
 
     /**弁新規*/
     public Press addPress(Press press){

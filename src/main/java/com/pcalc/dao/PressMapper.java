@@ -21,6 +21,9 @@ public interface PressMapper {
     /**valveテーブルのPageのIDを取得*/
     public int getLastpressNumByValveId(int valveId);
 
+    /**valveテーブルのPageのIDを取得*/
+    public Press findLastPressByValveId(Press press);
+
     /**データをテーブルに追加する*/
     public void insertPress(Press press);
 

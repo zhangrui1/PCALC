@@ -101,10 +101,10 @@
                     <thead>
                     <tr>
                         <th>番号<span id="press_num" class="press_num">(${pressListNum})</span></th>
+                        <th>係数</th>
                         <th>ベース</th>
                         <th>ユアツ</th>
                         <th>高さ</th>
-                        <th>係数</th>
                         <th>調整</th>
                         <th>結果</th>
                         <th>詳細</th>
@@ -114,6 +114,11 @@
                     <c:forEach items="${pressList}" var="press">
                         <tr class="data-tr" id="${press.pressId}">
                             <td class="data-td">${press.pressNum}</td>
+                            <td class="data-td">
+                                <div>
+                                    <input type="text" name="press-keisu-${press.pressId}" id="press-keisu-${press.pressId}" class="form-control" value="${press.keisu}" />
+                                </div>
+                            </td>
                             <td class="data-td">
                                 <div>
                                     <input type="text" name="press-base-${press.pressId}" id="press-base-${press.pressId}" class="form-control " value="${press.base}" />
@@ -127,11 +132,6 @@
                             <td class="data-td">
                                 <div>
                                     <input type="text" name="press-pressHigh-${press.pressId}" id="press-pressHigh-${press.pressId}" class="form-control" value="${press.pressHigh}" />
-                                </div>
-                            </td>
-                            <td class="data-td">
-                                <div>
-                                    <input type="text" name="press-keisu-${press.pressId}" id="press-keisu-${press.pressId}" class="form-control" value="${press.keisu}" />
                                 </div>
                             </td>
                             <td class="data-td">
@@ -198,22 +198,22 @@
                     '</td>'
             cell2.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
+                    '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
                     '</div>' +
                     '</td>'
             cell3.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
+                    '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
                     '</div>' +
                     '</td>'
             cell4.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
+                    '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
                     '</div>' +
                     '</td>'
             cell5.innerHTML= '<td class="data-td">' +
                     '<div>' +
-                    '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
+                    '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
                     '</div>' +
                     '</td>'
             cell6.innerHTML= '<td class="data-td">' +

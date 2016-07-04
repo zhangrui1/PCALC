@@ -48,10 +48,16 @@ public class PressController {
             Press press=new Press();
             press.setValveId(Integer.parseInt(valveId));
             press.setUserterm(user.getUserid());
+            press.setPressHigh(1);
             //pressNum 設定
             List<Press> pressList=pressService.getPressByValveId(valveId);
             if(pressList.size()>0){
                 press.setPressNum(pressMapper.getLastpressNumByValveId(Integer.parseInt(valveId))+1);
+                Press tmpPress=new Press();
+                tmpPress=pressService.getLastPressByValveId(valveId);
+                if(tmpPress!=null){
+                    press.setKeisu(tmpPress.getKeisu());
+                }
             }else{
                 press.setPressNum(1);
             }
@@ -143,7 +149,7 @@ public class PressController {
             pressG=((DouPressResult-Doubase)*DouKeisu)+(0.00863*DouHigh);
             //元データをBigDecimal型にする
             BigDecimal bd = new BigDecimal(pressG);
-            BigDecimal bd3 = bd.setScale(1, BigDecimal.ROUND_HALF_UP);  //四捨五入する　小数第3位
+            BigDecimal bd3 = bd.setScale(2, BigDecimal.ROUND_HALF_UP);  //四捨五入する　小数第3位
             pressG=bd3.doubleValue();
 
             press.setPressG(pressG);
