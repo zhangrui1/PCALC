@@ -63,11 +63,19 @@ public class PressController {
             }
 
             press=pressService.addPress(press);//新規空データ追加した
+            //valveIDのすべてのPressを取得する
+            pressList=pressService.getPressByValveId(valveId);
+            //Press件数を取得
+            Integer pressListNum=0;
+            if(pressList!=null){
+                pressListNum=pressList.size();
+            }
+
 
             Gson gson=new Gson();
             System.out.println("press="+gson.toJson(press));
 
-            return ""+gson.toJson(press);
+            return ""+gson.toJson(pressList);
         }
 
 

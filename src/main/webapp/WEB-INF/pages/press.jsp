@@ -100,17 +100,18 @@
                 <table class="table table-hover" id="press-table">
                     <thead>
                     <tr>
-                        <th>番号<span id="press_num" class="press_num">(${pressListNum})</span></th>
+                        <th>番号(<span id="press_num" class="press_num">${pressListNum}</span>)</th>
                         <th>係数(K)</th>
                         <th>ベース</th>
                         <th>ユアツ-G</th>
                         <th>高さ(H)</th>
                         <th>調整</th>
                         <th>結果</th>
+                        <th>更新日</th>
                         <th>詳細</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="pressListTbody">
                     <c:forEach items="${pressList}" var="press">
                         <tr class="data-tr" id="${press.pressId}">
                             <td class="data-td">${press.pressNum}</td>
@@ -144,6 +145,11 @@
                                     <input type="text" name="press-pressResult-${press.pressId}" id="press-pressResult-${press.pressId}" class="form-control" value="${press.pressResult}" />
                                 </div>
                             </td>
+                            <td class="data-td">
+                                <div>
+                                   ${press.updDate}
+                                </div>
+                            </td>
                             <td id="${press.pressId}">
                                 <%--<a class="btn btn-primary operation-button-btn" href="#">計算</a>--%>
                                 <button onclick="calculatePress(${press.pressId})" class="btn btn-primary operation-button-btn">計算</button>
@@ -169,74 +175,67 @@
         var valveId=$("#valveId").val();
         $.get("/PCALC/press/addPress",{"valveId":valveId},function(data){
             console.log("data="+data);
-            var press = JSON.parse(data);
-            var table=document.getElementById("press-table");
-            // 行を行末に追加
-            var rows=table.insertRow(-1);
-            // セルの挿入
-            var cell1=rows.insertCell(-1);
-            var cell2=rows.insertCell(-1);
-            var cell3=rows.insertCell(-1);
-            var cell4=rows.insertCell(-1);
-            var cell5=rows.insertCell(-1);
-            var cell6=rows.insertCell(-1);
-            var cell7=rows.insertCell(-1);
-            var cell8=rows.insertCell(-1);
+            var pressList = JSON.parse(data);
+            $("#pressListTbody").html("");
+            var tmpHTML = "";
+            for(var i = 0; i < pressList.length;i++){
+                var press=pressList[i];
+                var StrId=press.pressId;
+                var StrBaseId="press-base-"+press.pressId;
+                var StrPressId="press-pressG-"+press.pressId;
+                var StrHighId="press-pressHigh-"+press.pressId;
+                var StrKeisuId="press-keisu-"+press.pressId;
+                var StrAdjustId="press-adjust-"+press.pressId;
+                var StrResultId="press-pressResult-"+press.pressId;
 
-            // セルの内容入力
-            console.log("press.pressId="+press.pressId);
-            var StrId=press.pressId;
-            var StrBaseId="press-base-"+press.pressId;
-            var StrPressId="press-pressG-"+press.pressId;
-            var StrHighId="press-pressHigh-"+press.pressId;
-            var StrKeisuId="press-keisu-"+press.pressId;
-            var StrAdjustId="press-adjust-"+press.pressId;
-            var StrResultId="press-pressResult-"+press.pressId;
-
-            cell1.innerHTML= '<tr class="data-tr" id="'+press.pressId+'">' +
-                    '<td class="data-td" id="'+press.pressNum+'">' +press.pressNum+
-                    '</td>'
-            cell2.innerHTML= '<td class="data-td">' +
-                    '<div>' +
-                    '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
-                    '</div>' +
-                    '</td>'
-            cell3.innerHTML= '<td class="data-td">' +
-                    '<div>' +
-                    '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
-                    '</div>' +
-                    '</td>'
-            cell4.innerHTML= '<td class="data-td">' +
-                    '<div>' +
-                    '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
-                    '</div>' +
-                    '</td>'
-            cell5.innerHTML= '<td class="data-td">' +
-                    '<div>' +
-                    '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
-                    '</div>' +
-                    '</td>'
-            cell6.innerHTML= '<td class="data-td">' +
-                    '<div>' +
-                    '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
-                    '</div>' +
-                    '</td>'
-            cell7.innerHTML= '<td class="data-td">' +
-                    '<div>' +
-                    '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
-                    '</div>' +
-                    '</td>'
-            cell8.innerHTML= '<td id="'+press.pressId+'">' +
-                    '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
-                    '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button>' +
-                    '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
-                    '</td>' +
-                    '</tr>'
-
-//            console.log("rows.innerHTML="+rows.innerHTML);
-
-//            console.log("cell1.innerHTML="+cell1.innerHTML);
-
+                tmpHTML =tmpHTML+'<tr class="data-tr" id="'+press.pressId+'">'+
+                        '<td class="data-td" id="'+press.pressNum+'">' +press.pressNum+'</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
+                        '</div>' +
+                        '</td>' +
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                          press.updDate+
+                        '</div>' +
+                        '</td>'+
+                        '<td id="'+press.pressId+'">' +
+                        '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
+                        '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button>' +
+                        '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
+                        '</td>'+
+                        '</tr>';
+            }
+            $('#pressListTbody').html(tmpHTML);
+//            document.getElementById("press_num").innerHTML="("+pressList.length+")";
+            document.getElementById("press_num").innerHTML=pressList.length;
+            console.log("length="+pressList.length);
         });
     }
     function checkPress(obj) {
@@ -349,21 +348,14 @@
     //press 削除する
     function deletePress(obj) {
         var pressId=obj;
-//        var pressTr = $(obj).parent().parent();
-//        var pressId = pressTr[0].id;
-//        console.log("pressId before="+pressId);
-//        pressId=pressId.replace("press-","");
         console.log("delete pressId="+pressId);
         if (!confirm("この行を削除しますか？"))
             return;
 
         $.get("/PCALC/press/deletePressByPressId",{"pressId":pressId},function(data){
             document.getElementById(obj).style.display="none";
-//            var objTR=obj.parentNode.parentNode;
-//            var objTBL=objTR.parentNode;
-//            if(objTBL){
-//                objTBL.deleteRow(objTR.sectionRowIndex);
-//            }
+            var pressNum = parseInt(document.getElementById("press_num").innerHTML);
+            document.getElementById("press_num").innerHTML=pressNum-1;
         });
     }
 
