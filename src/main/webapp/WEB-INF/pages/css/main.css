@@ -1875,7 +1875,8 @@ Component: timeline
 }
 .btn.btn-default {
     background-color: #fafafa;
-    color: #666;
+    color: #0e0e0e;
+    font-weight:bold;
     border-color: #ddd;
     border-bottom-color: #ddd;
 }
