@@ -103,8 +103,8 @@
                         <th>番号(<span id="press_num" class="press_num">${pressListNum}</span>)</th>
                         <th>係数(K)</th>
                         <th>ベース</th>
-                        <th>ユアツ-G</th>
-                        <th>高さ(H)</th>
+                        <th>油圧(G)</th>
+                        <th>高低差(H)</th>
                         <th>調整</th>
                         <th>結果</th>
                         <th>更新日</th>
