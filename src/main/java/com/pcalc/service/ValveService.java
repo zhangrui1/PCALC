@@ -48,7 +48,7 @@ public class ValveService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         valve.setTrkDate(sdf1.format(date));
         valve.setUpdDate(sdf1.format(date));
         valve.setDelFlg("0");
@@ -64,7 +64,7 @@ public class ValveService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         valve.setUpdDate(sdf1.format(date));
 
         valveMapper.updateValve(valve);
@@ -82,7 +82,7 @@ public class ValveService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         valve.setUpdDate(sdf1.format(date));
 
          //弁削除

@@ -50,7 +50,7 @@ public class PressService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         press.setTrkDate(sdf1.format(date));
         press.setUpdDate(sdf1.format(date));
         press.setDelFlg("0");
@@ -67,7 +67,7 @@ public class PressService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         press.setUpdDate(sdf1.format(date));
 
         pressMapper.updatePress(press);
@@ -83,7 +83,7 @@ public class PressService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         press.setUpdDate(sdf1.format(date));
         pressMapper.deleteByPressId(press);
 
@@ -98,7 +98,7 @@ public class PressService {
 
         //append Date
         Date date = new Date();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss");
         press.setUpdDate(sdf1.format(date));
         pressMapper.deleteByValveId(press);
 
