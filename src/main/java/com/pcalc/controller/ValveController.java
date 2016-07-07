@@ -92,7 +92,7 @@ public class ValveController {
             modelMap.addAttribute("message","更新完了");
             session.setAttribute("valve",valve);
 
-            return "press";
+            return "redirect:/valve/"+valveId;
         }
 
     }

@@ -114,6 +114,7 @@
                     <tbody id="pressListTbody">
                     <c:forEach items="${pressList}" var="press">
                         <tr class="data-tr" id="${press.pressId}">
+                            <%--<td class="data-td"></td>--%>
                             <td class="data-td">${press.pressNum}</td>
                             <td class="data-td">
                                 <div>

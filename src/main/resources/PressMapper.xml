@@ -3,7 +3,7 @@
 <mapper namespace="com.pcalc.dao.PressMapper">
 
     <select id="findAllPressByValveId" parameterType="Press" resultType="Press">
-        select * from press where valveId=#{valveId} and delFlg=#{delFlg}
+        select * from press where valveId=#{valveId} and delFlg=0
     </select>
 
     <select id="findPressByPressId" parameterType="int" resultType="Press">

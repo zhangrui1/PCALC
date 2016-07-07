@@ -3,11 +3,11 @@
 <mapper namespace="com.pcalc.dao.ValveMapper">
 
     <select id="findAllValveByUserId" parameterType="Valve" resultType="Valve">
-        select * from valve where userterm=#{userterm} and delFlg=#{delFlg}
+        select * from valve where userterm=#{userterm} and delFlg=0
     </select>
 
     <select id="findAllValveByValveId" parameterType="int" resultType="Valve">
-        select * from valve where valveId=#{valveId}
+        select * from valve where valveId=#{valveId} and delFlg=0
     </select>
 
     <select id="getLastInsertId" resultType="int">
