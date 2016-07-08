@@ -177,9 +177,12 @@ public class PressController {
      * */
     @RequestMapping(value = "/deletePressByPressId", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public  String deletePressByPressId(@RequestParam("pressId")String pressId,ModelMap modelMap,HttpSession session){
+    public  String deletePressByPressId(@RequestParam("pressId")String pressId,@RequestParam("valveId")String valveId,ModelMap modelMap,HttpSession session){
 
         pressService.deletePressByPressId(pressId);
-        return "";
+        List<Press> pressList=pressService.getPressByValveId(valveId);
+
+        Gson gson=new Gson();
+        return ""+gson.toJson(pressList);
     }
 }

@@ -112,10 +112,9 @@
                     </tr>
                     </thead>
                     <tbody id="pressListTbody">
-                    <c:forEach items="${pressList}" var="press">
+                    <c:forEach items="${pressList}" var="press" varStatus="status">
                         <tr class="data-tr" id="${press.pressId}">
-                            <%--<td class="data-td"></td>--%>
-                            <td class="data-td">${press.pressNum}</td>
+                            <td class="data-td">${status.count}</td>
                             <td class="data-td">
                                 <div>
                                     <input type="text" name="press-keisu-${press.pressId}" id="press-keisu-${press.pressId}" class="form-control" value="${press.keisu}" />
@@ -190,7 +189,7 @@
                 var StrResultId="press-pressResult-"+press.pressId;
 
                 tmpHTML =tmpHTML+'<tr class="data-tr" id="'+press.pressId+'">'+
-                        '<td class="data-td" id="'+press.pressNum+'">' +press.pressNum+'</td>'+
+                        '<td class="data-td">' +(i+1)+'</td>'+
                         '<td class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
@@ -352,11 +351,74 @@
         console.log("delete pressId="+pressId);
         if (!confirm("この行を削除しますか？"))
             return;
+        var valveId=$("#valveId").val();
 
-        $.get("/PCALC/press/deletePressByPressId",{"pressId":pressId},function(data){
-            document.getElementById(obj).style.display="none";
-            var pressNum = parseInt(document.getElementById("press_num").innerHTML);
-            document.getElementById("press_num").innerHTML=pressNum-1;
+        $.get("/PCALC/press/deletePressByPressId",{"pressId":pressId,"valveId":valveId},function(data){
+//            document.getElementById(obj).style.display="none";
+//            var pressNum = parseInt(document.getElementById("press_num").innerHTML);
+//            document.getElementById("press_num").innerHTML=pressNum-1;
+
+            console.log("data="+data);
+            var pressList = JSON.parse(data);
+            $("#pressListTbody").html("");
+            var tmpHTML = "";
+            for(var i = 0; i < pressList.length;i++){
+                var press=pressList[i];
+                var StrId=press.pressId;
+                var StrBaseId="press-base-"+press.pressId;
+                var StrPressId="press-pressG-"+press.pressId;
+                var StrHighId="press-pressHigh-"+press.pressId;
+                var StrKeisuId="press-keisu-"+press.pressId;
+                var StrAdjustId="press-adjust-"+press.pressId;
+                var StrResultId="press-pressResult-"+press.pressId;
+
+                tmpHTML =tmpHTML+'<tr class="data-tr" id="'+press.pressId+'">'+
+                        '<td class="data-td">' +(i+1)+'</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
+                        '</div>' +
+                        '</td>' +
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td class="data-td">' +
+                        '<div>' +
+                        press.updDate+
+                        '</div>' +
+                        '</td>'+
+                        '<td id="'+press.pressId+'">' +
+                        '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
+                        '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button>' +
+                        '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
+                        '</td>'+
+                        '</tr>';
+            }
+            $('#pressListTbody').html(tmpHTML);
+            document.getElementById("press_num").innerHTML=pressList.length;
+            console.log("length="+pressList.length);
         });
     }
 
