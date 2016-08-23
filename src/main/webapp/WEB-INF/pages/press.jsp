@@ -100,61 +100,65 @@
                 <table class="table table-hover" id="press-table">
                     <thead>
                     <tr>
-                        <th>番号(<span id="press_num" class="press_num">${pressListNum}</span>)</th>
-                        <th>係数(K)</th>
-                        <th>ベース</th>
-                        <th>油圧(G)</th>
-                        <th>高低差(H)</th>
-                        <th>調整</th>
-                        <th>結果</th>
-                        <th>更新日</th>
-                        <th>詳細</th>
+                    <td rowspan="2" style="vertical-align:middle">番号(<span id="press_num" class="press_num">${pressListNum}</span>)</td>
+                    <td  style="border-style: none;">係数(K)</th>
+                    <td  style="border-style: none;">ベース</th>
+                    <td  style="border-style: none;">油圧(G)</th>
+                    <td rowspan="2"  align="center" valign="top">更新日</td>
+                    <td rowspan="2"  align="center" valign="top">詳細</td>
+                    </tr>
+                    <tr>
+                        <td>高低差(H)</th>
+                        <td>調整</th>
+                        <td>結果</th>
                     </tr>
                     </thead>
                     <tbody id="pressListTbody">
                     <c:forEach items="${pressList}" var="press" varStatus="status">
-                        <tr class="data-tr" id="${press.pressId}">
-                            <td class="data-td">${status.count}</td>
-                            <td class="data-td">
+                        <tr border="0" class="data-tr" id="${press.pressId}">
+                            <td  rowspan="2"  style="vertical-align:middle" class="data-td">${status.count}</td>
+                            <td class="data-td" style="vertical-align:middle">
                                 <div>
-                                    <input type="text" name="press-keisu-${press.pressId}" id="press-keisu-${press.pressId}" class="form-control" value="${press.keisu}" />
+                                    <input type="text" name="press-keisu-${press.pressId}" id="press-keisu-${press.pressId}" class="form-control" value="${press.keisu}" placeholder="係数(K)"/>
                                 </div>
                             </td>
-                            <td class="data-td">
+                            <td class="data-td" style="vertical-align:middle">
                                 <div>
-                                    <input type="text" name="press-base-${press.pressId}" id="press-base-${press.pressId}" class="form-control " value="${press.base}" />
+                                    <input type="text" name="press-base-${press.pressId}" id="press-base-${press.pressId}" class="form-control " value="${press.base}" placeholder="ベース" />
                                 </div>
                             </td>
-                            <td class="data-td">
+                            <td class="data-td" style="vertical-align:middle">
                                 <div>
-                                    <input type="text" name="press-pressG-${press.pressId}" id="press-pressG-${press.pressId}" class="form-control" value="${press.pressG}" />
+                                    <input type="text" name="press-pressG-${press.pressId}" id="press-pressG-${press.pressId}" class="form-control" value="${press.pressG}" placeholder="油圧(G)"/>
                                 </div>
                             </td>
-                            <td class="data-td">
-                                <div>
-                                    <input type="text" name="press-pressHigh-${press.pressId}" id="press-pressHigh-${press.pressId}" class="form-control" value="${press.pressHigh}" />
-                                </div>
-                            </td>
-                            <td class="data-td">
-                                <div>
-                                    <input type="text" name="press-adjust-${press.pressId}" id="press-adjust-${press.pressId}" class="form-control" value="${press.adjust}" />
-                                </div>
-                            </td>
-                            <td class="data-td">
-                                <div>
-                                    <input type="text" name="press-pressResult-${press.pressId}" id="press-pressResult-${press.pressId}" class="form-control" value="${press.pressResult}" />
-                                </div>
-                            </td>
-                            <td class="data-td">
+                            <td  rowspan="2"  style="vertical-align:middle" class="data-td">
                                 <div>
                                    ${press.updDate}
                                 </div>
                             </td>
-                            <td id="${press.pressId}">
+                            <td  rowspan="2"  style="vertical-align:middle" id="${press.pressId}">
                                 <%--<a class="btn btn-primary operation-button-btn" href="#">計算</a>--%>
-                                <button onclick="calculatePress(${press.pressId})" class="btn btn-primary operation-button-btn">計算</button>
-                                <button onclick="reCalculatePress(${press.pressId})" class="btn btn-warning operation-button-btn">逆計算</button>
-                                <button onclick="deletePress(${press.pressId})" class="btn btn-danger operation-button-btn">削除</button>
+                                <button onclick="calculatePress(${press.pressId})" class="btn btn-primary operation-button-btn">計　 算</button><br><br>
+                                <button onclick="reCalculatePress(${press.pressId})" class="btn btn-warning operation-button-btn">逆計算</button><br><br>
+                                <button onclick="deletePress(${press.pressId})" class="btn btn-danger operation-button-btn">削　 除</button>
+                            </td>
+                        </tr>
+                        <tr border="0">
+                            <td class="data-td" style="vertical-align:middle">
+                                <div>
+                                    <input type="text" name="press-pressHigh-${press.pressId}" id="press-pressHigh-${press.pressId}" class="form-control" value="${press.pressHigh}" placeholder="高低差(H)"/>
+                                </div>
+                            </td>
+                            <td class="data-td" style="vertical-align:middle">
+                                <div>
+                                    <input type="text" name="press-adjust-${press.pressId}" id="press-adjust-${press.pressId}" class="form-control" value="${press.adjust}" placeholder="調整"/>
+                                </div>
+                            </td>
+                            <td class="data-td" style="vertical-align:middle">
+                                <div>
+                                    <input type="text" name="press-pressResult-${press.pressId}" id="press-pressResult-${press.pressId}" class="form-control" value="${press.pressResult}" placeholder="結果"/>
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>
@@ -188,49 +192,52 @@
                 var StrAdjustId="press-adjust-"+press.pressId;
                 var StrResultId="press-pressResult-"+press.pressId;
 
-                tmpHTML =tmpHTML+'<tr class="data-tr" id="'+press.pressId+'">'+
-                        '<td class="data-td">' +(i+1)+'</td>'+
-                        '<td class="data-td">' +
+                tmpHTML =tmpHTML+'<tr border="0" class="data-tr" id="'+press.pressId+'">'+
+                        '<td  rowspan="2"  style="vertical-align:middle" class="data-td">' +(i+1)+'</td>'+
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
                         '</div>' +
                         '</td>' +
-                        '<td class="data-td">' +
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
+                        '<td rowspan="2" style="vertical-align:middle" class="data-td">' +
+                        '<div>' +
+                        press.updDate+
+                        '</div>' +
+                        '</td>'+
+                        '<td rowspan="2" style="vertical-align:middle" id="'+press.pressId+'">' +
+                        '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計　 算</button><br><br>' +
+                        '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button><br><br>' +
+                        '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削　 除</button>' +
+                        '</td>'+
+                        '</tr>'+
+                        '<tr border="0">'+
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
-                        '<div>' +
-                          press.updDate+
-                        '</div>' +
-                        '</td>'+
-                        '<td id="'+press.pressId+'">' +
-                        '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
-                        '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button>' +
-                        '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
-                        '</td>'+
                         '</tr>';
+
             }
             $('#pressListTbody').html(tmpHTML);
 //            document.getElementById("press_num").innerHTML="("+pressList.length+")";
@@ -372,47 +379,49 @@
                 var StrAdjustId="press-adjust-"+press.pressId;
                 var StrResultId="press-pressResult-"+press.pressId;
 
-                tmpHTML =tmpHTML+'<tr class="data-tr" id="'+press.pressId+'">'+
-                        '<td class="data-td">' +(i+1)+'</td>'+
-                        '<td class="data-td">' +
+                tmpHTML =tmpHTML+'<tr border="0" class="data-tr" id="'+press.pressId+'">'+
+                        '<td  rowspan="2"  style="vertical-align:middle" class="data-td">' +(i+1)+'</td>'+
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrKeisuId+'"  id="'+StrKeisuId+'"  class="form-control " value="'+press.keisu+'"/>'+
                         '</div>' +
                         '</td>' +
-                        '<td class="data-td">' +
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrBaseId+'"  id="'+StrBaseId+'" class="form-control " value="'+press.base+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
+                        '<td style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         '<input type="text" name="'+StrPressId+'"  id="'+StrPressId+'"  class="form-control " value="'+press.pressG+'"/>'+
                         '</div>' +
                         '</td>'+
-                        '<td class="data-td">' +
-                        '<div>' +
-                        '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
-                        '</div>' +
-                        '</td>'+
-                        '<td class="data-td">' +
-                        '<div>' +
-                        '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
-                        '</div>' +
-                        '</td>'+
-                        '<td class="data-td">' +
-                        '<div>' +
-                        '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
-                        '</div>' +
-                        '</td>'+
-                        '<td class="data-td">' +
+                        '<td rowspan="2" style="vertical-align:middle" class="data-td">' +
                         '<div>' +
                         press.updDate+
                         '</div>' +
                         '</td>'+
-                        '<td id="'+press.pressId+'">' +
-                        '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計算</button>' +
-                        '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button>' +
-                        '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削除</button>' +
+                        '<td rowspan="2" style="vertical-align:middle" id="'+press.pressId+'">' +
+                        '<button onclick="calculatePress('+press.pressId+')" class="btn btn-primary operation-button-btn">計　 算</button><br><br>' +
+                        '<button onclick="reCalculatePress('+press.pressId+')" class="btn btn-warning operation-button-btn">逆計算</button><br><br>' +
+                        '<button onclick="deletePress('+press.pressId+')" class="btn btn-danger operation-button-btn">削　 除</button>' +
+                        '</td>'+
+                        '</tr>'+
+                        '<tr border="0">'+
+                        '<td style="vertical-align:middle" class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrHighId+'"  id="'+StrHighId+'"  class="form-control " value="'+press.pressHigh+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td style="vertical-align:middle" class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrAdjustId+'"  id="'+StrAdjustId+'"  class="form-control " value="'+press.adjust+'"/>'+
+                        '</div>' +
+                        '</td>'+
+                        '<td style="vertical-align:middle" class="data-td">' +
+                        '<div>' +
+                        '<input type="text" name="'+StrResultId+'"  id="'+StrResultId+'"  class="form-control " value="'+press.pressResult+'"/>'+
+                        '</div>' +
                         '</td>'+
                         '</tr>';
             }
